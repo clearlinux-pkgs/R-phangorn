@@ -4,33 +4,42 @@
 #
 Name     : R-phangorn
 Version  : 2.4.0
-Release  : 6
+Release  : 7
 URL      : https://cran.r-project.org/src/contrib/phangorn_2.4.0.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/phangorn_2.4.0.tar.gz
 Summary  : Phylogenetic Reconstruction and Analysis
 Group    : Development/Tools
 License  : GPL-2.0+
-Requires: R-phangorn-lib
+Requires: R-phangorn-lib = %{version}-%{release}
 Requires: R-Rcpp
 Requires: R-ape
+Requires: R-cli
 Requires: R-fastmatch
 Requires: R-igraph
+Requires: R-pkgconfig
 Requires: R-quadprog
 Requires: R-seqinr
+Requires: R-withr
 Requires: R-xtable
 BuildRequires : R-Rcpp
 BuildRequires : R-ape
+BuildRequires : R-cli
 BuildRequires : R-fastmatch
 BuildRequires : R-igraph
+BuildRequires : R-pkgconfig
 BuildRequires : R-quadprog
 BuildRequires : R-seqinr
+BuildRequires : R-withr
 BuildRequires : R-xtable
-BuildRequires : clr-R-helpers
+BuildRequires : buildreq-R
 
 %description
-networks using Maximum Likelihood, Maximum Parsimony, distance methods and
-    Hadamard conjugation. Allows to compare trees, models selection and offers
-    visualizations for trees and split networks.
+[![Build Status](https://travis-ci.org/KlausVigo/phangorn.svg?branch=master)](https://travis-ci.org/KlausVigo/phangorn)
+[![CRAN Status Badge](http://www.r-pkg.org/badges/version/phangorn)](https://cran.r-project.org/package=phangorn)
+[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/phangorn)](https://cran.r-project.org/package=phangorn)
+[![Research software impact](http://depsy.org/api/package/cran/phangorn/badge.svg)](http://depsy.org/package/r/phangorn)
+[![codecov.io](https://codecov.io/github/KlausVigo/phangorn/coverage.svg?branch=master)](https://codecov.io/github/KlausVigo/phangorn?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/KlausVigo/phangorn/badge.svg?branch=master)](https://coveralls.io/github/KlausVigo/phangorn?branch=master)
 
 %package lib
 Summary: lib components for the R-phangorn package.
@@ -48,11 +57,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1530410773
+export SOURCE_DATE_EPOCH=1552854597
 
 %install
+export SOURCE_DATE_EPOCH=1552854597
 rm -rf %{buildroot}
-export SOURCE_DATE_EPOCH=1530410773
 export LANG=C
 export CFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
@@ -70,9 +79,9 @@ echo "FFLAGS = $FFLAGS -march=haswell -ftree-vectorize " >> ~/.R/Makevars
 echo "CXXFLAGS = $CXXFLAGS -march=haswell -ftree-vectorize " >> ~/.R/Makevars
 R CMD INSTALL --install-tests --built-timestamp=${SOURCE_DATE_EPOCH} --build  -l %{buildroot}/usr/lib64/R/library phangorn
 for i in `find %{buildroot}/usr/lib64/R/ -name "*.so"`; do mv $i $i.avx2 ; mv $i.avx2 ~/.stash/; done
-echo "CFLAGS = $CFLAGS -march=skylake-avx512 -ftree-vectorize -mprefer-vector-width=512 " > ~/.R/Makevars
-echo "FFLAGS = $FFLAGS -march=skylake-avx512 -ftree-vectorize -mprefer-vector-width=512 " >> ~/.R/Makevars
-echo "CXXFLAGS = $CXXFLAGS -march=skylake-avx512 -ftree-vectorize -mprefer-vector-width=512  " >> ~/.R/Makevars
+echo "CFLAGS = $CFLAGS -march=skylake-avx512 -ftree-vectorize " > ~/.R/Makevars
+echo "FFLAGS = $FFLAGS -march=skylake-avx512 -ftree-vectorize " >> ~/.R/Makevars
+echo "CXXFLAGS = $CXXFLAGS -march=skylake-avx512 -ftree-vectorize " >> ~/.R/Makevars
 R CMD INSTALL --preclean --install-tests --no-test-load --built-timestamp=${SOURCE_DATE_EPOCH} --build  -l %{buildroot}/usr/lib64/R/library phangorn
 for i in `find %{buildroot}/usr/lib64/R/ -name "*.so"`; do mv $i $i.avx512 ; mv $i.avx512 ~/.stash/; done
 echo "CFLAGS = $CFLAGS -ftree-vectorize " > ~/.R/Makevars
@@ -87,8 +96,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export _R_CHECK_FORCE_SUGGESTS_=false
-R CMD check --no-manual --no-examples --no-codoc -l %{buildroot}/usr/lib64/R/library phangorn|| : 
-cp ~/.stash/* %{buildroot}/usr/lib64/R/library/*/libs/ || :
+R CMD check --no-manual --no-examples --no-codoc  phangorn || :
 
 
 %files
@@ -183,7 +191,28 @@ cp ~/.stash/* %{buildroot}/usr/lib64/R/library/*/libs/ || :
 /usr/lib64/R/library/phangorn/help/phangorn.rdx
 /usr/lib64/R/library/phangorn/html/00Index.html
 /usr/lib64/R/library/phangorn/html/R.css
-/usr/lib64/R/library/phangorn/libs/symbols.rds
+/usr/lib64/R/library/phangorn/tests/testthat.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_Clanistics.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_SH.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_ancestral.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_dist_tree.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_distances.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_hadamard.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_mast.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_modelTest.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_parsimony.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_phyDat.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_pml.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_pmlCluster.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_pmlMix.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_pmlPart.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_pmlPen.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_speciesTree.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_splits.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_superTree.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_treeManipulation.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_treeRearrangement.R
+/usr/lib64/R/library/phangorn/tests/testthat/test_treedist.R
 
 %files lib
 %defattr(-,root,root,-)
