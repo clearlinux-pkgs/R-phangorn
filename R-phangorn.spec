@@ -4,30 +4,31 @@
 #
 Name     : R-phangorn
 Version  : 2.5.5
-Release  : 14
+Release  : 15
 URL      : https://cran.r-project.org/src/contrib/phangorn_2.5.5.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/phangorn_2.5.5.tar.gz
 Summary  : Phylogenetic Reconstruction and Analysis
 Group    : Development/Tools
 License  : GPL-2.0+
 Requires: R-phangorn-lib = %{version}-%{release}
+Requires: R-Rcpp
 Requires: R-ape
 Requires: R-fastmatch
 Requires: R-igraph
+Requires: R-magrittr
 Requires: R-quadprog
+BuildRequires : R-Rcpp
 BuildRequires : R-ape
 BuildRequires : R-fastmatch
 BuildRequires : R-igraph
+BuildRequires : R-magrittr
 BuildRequires : R-quadprog
 BuildRequires : buildreq-R
 
 %description
-[![Build Status](https://travis-ci.org/KlausVigo/phangorn.svg?branch=master)](https://travis-ci.org/KlausVigo/phangorn)
-[![CRAN Status Badge](http://www.r-pkg.org/badges/version/phangorn)](https://cran.r-project.org/package=phangorn)
-[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/phangorn)](https://cran.r-project.org/package=phangorn)
-[![Research software impact](http://depsy.org/api/package/cran/phangorn/badge.svg)](http://depsy.org/package/r/phangorn)
-[![codecov.io](https://codecov.io/github/KlausVigo/phangorn/coverage.svg?branch=master)](https://codecov.io/github/KlausVigo/phangorn?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/KlausVigo/phangorn/badge.svg?branch=master)](https://coveralls.io/github/KlausVigo/phangorn?branch=master)
+networks using Maximum Likelihood, Maximum Parsimony, distance methods and
+    Hadamard conjugation. Allows to compare trees, models selection and offers
+    visualizations for trees and split networks.
 
 %package lib
 Summary: lib components for the R-phangorn package.
@@ -44,13 +45,13 @@ lib components for the R-phangorn package.
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1561311673
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1569292210
 
 %install
-export SOURCE_DATE_EPOCH=1561311673
+export SOURCE_DATE_EPOCH=1569292210
 rm -rf %{buildroot}
-export LANG=C
+export LANG=C.UTF-8
 export CFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -O3 -flto -fno-semantic-interposition "
