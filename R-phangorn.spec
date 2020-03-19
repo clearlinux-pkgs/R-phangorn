@@ -4,7 +4,7 @@
 #
 Name     : R-phangorn
 Version  : 2.5.5
-Release  : 16
+Release  : 17
 URL      : https://cran.r-project.org/src/contrib/phangorn_2.5.5.tar.gz
 Source0  : https://cran.r-project.org/src/contrib/phangorn_2.5.5.tar.gz
 Summary  : Phylogenetic Reconstruction and Analysis
